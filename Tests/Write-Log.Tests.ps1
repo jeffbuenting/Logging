@@ -1,11 +1,4 @@
-﻿#$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-#$sut = (Split-Path -Leaf $MyInvocation.MyCommand.Path) -replace '\.Tests\.', '.'
-#. "$here\$sut"
-
-
-
-
-# ----- Get the module name
+﻿# ----- Get the module name
 if ( -Not $PSScriptRoot ) { $PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent }
 
 Write-Output "PSScriptRoot = $PSScriptRoot"
