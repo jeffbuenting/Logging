@@ -13,7 +13,25 @@
     .PARAMETER MESSAGE
         Info message to write to log.
 
-    .P
+    .PARAMETER Warning
+        changes the message type to warning.
+
+    .PARAMETER Throw
+        Changes the message type to Error.
+
+    .EXAMPLE
+        write a info message to the log and to the verbose stream.
+
+        Write-Log -Path c:\temp\log.log -Message 'This is info.' -Verbose
+
+    .LINKS
+        Used this as inspiration and added the verbose part.
+
+        https://gallery.technet.microsoft.com/scriptcenter/Write-Log-PowerShell-999c32d0
+
+    .NOTES
+        Author : Jeff Buenting
+        DATE : 2019 NOV 7
 #>
     
     [CmdletBinding(DefaultParameterSetName = 'Info')]
@@ -67,5 +85,4 @@
     Out-File -FilePath $Path -InputObject $TXT -Append
 
     if ( $Throw ) { Throw $Txt }
-
 }
