@@ -85,5 +85,4 @@
     Out-File -FilePath $Path -InputObject $TXT -Append
 
     if ( $Throw ) { Throw $Txt }
-
 }
