@@ -46,6 +46,12 @@
         [Parameter(ParameterSetName = 'Info')]
         [Parameter(ParameterSetName = 'Warning')]
         [Parameter(ParameterSetName = 'Error')]
+        [String]$Application,
+
+        [Parameter (Mandatory = $True,Position = 2)]
+        [Parameter(ParameterSetName = 'Info')]
+        [Parameter(ParameterSetName = 'Warning')]
+        [Parameter(ParameterSetName = 'Error')]
         [String]$Message,
 
         [Parameter(ParameterSetName = 'Warning')]
@@ -62,27 +68,26 @@
 
     $MsgType = 'Info   '
         
-    $Txt = "$Date  -  $MsgType -  $Message"
+    if ( $Warning ) {
+        $MsgType = 'Warning'
+    }
+
+     if ( $Throw ) {
+        $MsgType = 'Error  '
+    }
+
+    $Txt = "$Date  -  $MsgType  -  $Application  -  $Message"
 
     if ( $VerbosePreference -eq 'Continue' -and -not $Warning -and -not $Throw ) {
         Write-Verbose $TXT
     }
 
-    if ( $Warning ) {
-        $MsgType = 'Warning'
-        
-        $TXT = "$Date  -  $MsgType -  $Message"
-
-        Write-Warning $TXT
-    }
-
-     if ( $Throw ) {
-        $MsgType = 'Error  '
-        
-        $Txt = "$Date  -  $MsgType -  $Message"
-    }
-
     Out-File -FilePath $Path -InputObject $TXT -Append
 
-    if ( $Throw ) { Throw $Txt }
+    if ( $Warning ) { Write-Warning $Txt }
+
+    if ( $Throw ) { 
+        Write-Error $Txt
+        $PSCmdlet.ThrowTerminatingError($Txt)
+    }
 }
